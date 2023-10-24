@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html class="sl-theme-dark">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Dashboard for Kill Switch Extension">
+        <meta name="author" content="AeolusDev">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Kill Switch Dashboard</title>
+
+        <link rel="icon" type="image/x-icon" href="./assets/logo/favicon.ico">
+        <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.11.0/cdn/themes/dark.css" />
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.11.0/cdn/shoelace-autoloader.js"></script>
+    </head>
+
+    <body>
+        <section class="header">
+            <sl-divider style="--width: 4px;"></sl-divider>
+            <header>Dashboard</header>
+            <sl-divider style="--width: 4px;"></sl-divider>
+
+        </section>
+
+        <section class="input">
+            <form class="new-url">
+                <sl-icon name="link" style="z-index: 11; position: absolute; left: 140px; top: 5px;""></sl-icon>
+                <sl-input label="Enter the new URL" placeholder="URL" size="medium" pill clearable filled required></sl-input>
+                <sl-icon name="link" style="z-index: 11; position: absolute; left: 330px; top: 5px;""></sl-icon>
+                <sl-button type="submit" variant="primary" style="top:5px">Submit</sl-button>
+            </form>
+            <script type="module">
+                const form = document.querySelector('.new-url');
+                
+                await Promise.all([
+                    customElements.whenDefined('sl-button'),
+                    customElements.whenDefined('sl-input')
+                ]).then(() => {
+                    form.addEventListener('submit', event => {
+                        event.preventDefault();
+                        console.log("Added new URL")
+                    });
+                });
+              </script>
+        </section>
+
+        
+<script>
+    const container = document.querySelector('.input');
+    const button = container.querySelector('sl-button');
+    let count = 0;
+  
+    // Always escape HTML for text arguments!
+    function escapeHtml(html) {
+      const div = document.createElement('div');
+      div.textContent = html;
+      return div.innerHTML;
+    }
+  
+    // Custom function to emit toast notifications
+    function notify(message, variant = 'success', icon = 'info-circle', duration = 3000) {
+      const alert = Object.assign(document.createElement('sl-alert'), {
+        variant,
+        closable: true,
+        duration: duration,
+        innerHTML: `
+          <sl-icon name="${icon}" slot="icon"></sl-icon>
+          ${escapeHtml(message)}
+        `
+      });
+  
+      document.body.append(alert);
+      return alert.toast();
+    }
+  
+    button.addEventListener('click', () => {
+      notify(`Success URL added!`);
+    });
+  </script>
+
+          
+    </body>
+    <script src="./assets/JS/script.js"></script>
+</html>
